@@ -4,7 +4,9 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -56,6 +58,19 @@ public class Main extends Application {
 			VBox searchButtonsVBox = new VBox();
 			ListView<String> searchResultsList = new ListView<String>();
 			searchHBox.getChildren().addAll(searchButtonsVBox, searchResultsList);
+			
+			// add textfields and buttons to sortButtonsVBox
+			TextField sortRunsTF = new TextField();
+			TextField sortSizeTF = new TextField();
+			Button testSortButton = new Button("Test Sort");
+			sortButtonsVBox.getChildren().addAll(sortRunsTF, sortSizeTF, testSortButton);
+			
+			// add textfields and buttons to searchButtonsVBox
+			TextField searchRunsTF = new TextField();
+			TextField searchSizeTF = new TextField();
+			Button testSearchButton = new Button("Test Search");
+			searchButtonsVBox.getChildren().addAll(searchRunsTF, searchSizeTF, testSearchButton);
+			
 			
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
