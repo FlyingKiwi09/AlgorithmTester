@@ -20,7 +20,6 @@ import javafx.scene.text.Text;
 public class Main extends Application {
 	
 	
-	public static Scene scene;
 	public static int sortRuns, searchRuns, sortQuantity, searchQuantity;
 	public static Button testSortButton, testSearchButton;
 	public static TextField sortRunsTF, sortSizeTF, searchRunsTF, searchSizeTF;
@@ -30,7 +29,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			setUpUIScene();
+			Scene scene = this.setUpUIScene();
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setMaximized(true);
@@ -42,7 +41,8 @@ public class Main extends Application {
 	
 
 	
-	public static void setUpUIScene() {
+	private Scene setUpUIScene() {
+		
 		BorderPane root = new BorderPane();
 		
 		// create a title and add to the top of the root borderpane
@@ -75,14 +75,19 @@ public class Main extends Application {
 		searchVBox.setAlignment(Pos.TOP_CENTER);
 		
 		// add buttonsVBox and ListVeiw to sortHBox
-		VBox sortButtonsVBox = new VBox();
 		sortResultsList = new ListView<String>();
-		sortHBox.getChildren().addAll(sortButtonsVBox, sortResultsList);
+		sortHBox.getChildren().addAll(this.setUpSortButtonsUI(), sortResultsList);
 		
 		// add buttonsVBox and ListVeiw to searchHBox
-		VBox searchButtonsVBox = new VBox();
 		searchResultsList = new ListView<String>();
-		searchHBox.getChildren().addAll(searchButtonsVBox, searchResultsList);
+		searchHBox.getChildren().addAll(this.setUpSearchButtonsUI(), searchResultsList);
+		
+		Scene scene = new Scene(root);
+		return scene;
+	}
+	
+	private VBox setUpSortButtonsUI() {
+		VBox sortButtonsVBox = new VBox();
 		
 		// add textfields and buttons to sortButtonsVBox
 		sortRunsTF = new TextField();
@@ -95,10 +100,16 @@ public class Main extends Application {
 				TestSort testSort = new TestSort(); // testSort class extends Sorter class and can therefore be passed to the runSortTest method
 				runSortTest(testSort);				
 			}
-			
 		});
 		
 		sortButtonsVBox.getChildren().addAll(sortRunsTF, sortSizeTF, testSortButton);
+		
+		return sortButtonsVBox;
+	}
+	
+	
+	private VBox setUpSearchButtonsUI() {
+		VBox searchButtonsVBox = new VBox();
 		
 		// add textfields and buttons to searchButtonsVBox
 		searchRunsTF = new TextField();
@@ -115,9 +126,8 @@ public class Main extends Application {
 			
 		});
 		searchButtonsVBox.getChildren().addAll(searchRunsTF, searchSizeTF, testSearchButton);
-		
-		scene = new Scene(root);
-		
+				
+		return searchButtonsVBox;
 	}
 	
 	// returns an array of random integers of length = quantity between 0 and 999,999
@@ -159,7 +169,6 @@ public class Main extends Application {
 		// output result
 		System.out.println(average);
 		sortResultsList.getItems().add("Average " + average);
-		
 	}
 	
 	
@@ -188,7 +197,6 @@ public class Main extends Application {
 		// output result
 		System.out.println(average);
 		searchResultsList.getItems().add("Average " + average);
-		
 	}
 	
 	public static void main(String[] args) {
