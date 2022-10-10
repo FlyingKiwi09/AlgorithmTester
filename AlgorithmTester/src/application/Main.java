@@ -22,7 +22,6 @@ public class Main extends Application {
 	
 	public static int sortRuns, searchRuns, sortQuantity, searchQuantity;
 	public static Button testSortButton, testSearchButton;
-	public static TextField sortRunsTF, sortSizeTF, searchRunsTF, searchSizeTF;
 	public static ListView<String> sortResultsList, searchResultsList;
 	
 	
@@ -38,8 +37,6 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 	}
-	
-
 	
 	private Scene setUpUIScene() {
 		
@@ -90,15 +87,18 @@ public class Main extends Application {
 		VBox sortButtonsVBox = new VBox();
 		
 		// add textfields and buttons to sortButtonsVBox
-		sortRunsTF = new TextField();
-		sortSizeTF = new TextField();
+		TextField sortRunsTF = new TextField();
+		TextField sortSizeTF = new TextField();
+		
 		testSortButton = new Button("Test Sort");
 		testSortButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent arg0) {
+				int numRuns = Integer.parseInt(sortRunsTF.getText());
+				int dataSize = Integer.parseInt(sortSizeTF.getText());
 				TestSort testSort = new TestSort(); // testSort class extends Sorter class and can therefore be passed to the runSortTest method
-				runSortTest(testSort);				
+				runSortTest(testSort, numRuns, dataSize);				
 			}
 		});
 		
@@ -112,15 +112,17 @@ public class Main extends Application {
 		VBox searchButtonsVBox = new VBox();
 		
 		// add textfields and buttons to searchButtonsVBox
-		searchRunsTF = new TextField();
-		searchSizeTF = new TextField();
+		TextField searchRunsTF = new TextField();
+		TextField searchSizeTF = new TextField();
 		testSearchButton = new Button("Test Search");
 		testSearchButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
+			
 			@Override
 			public void handle(MouseEvent arg0) {
+				int dataSize = Integer.parseInt(searchSizeTF.getText());
+				int numRuns =  Integer.parseInt(searchRunsTF.getText());
 				TestSearch testSearch = new TestSearch(); // testSearch extends Searcher
-				runSearchTest(testSearch);
+				runSearchTest(testSearch, numRuns, dataSize);
 				
 			}
 			
@@ -145,17 +147,16 @@ public class Main extends Application {
 	// calls this sort method the number of times specified by the user in the sortRuns textfield
 	// records all the times and then finds the average
 	// stores the average, and other data to the Observable list/ list view
-	public static void runSortTest(Sorter sorter) {
+	private void runSortTest(Sorter sorter, int numRuns, int dataSize) {
 		
-		sortRuns = Integer.parseInt(sortRunsTF.getText());
-		double[] runTimes = new double[sortRuns]; // to store the time each run takes
+		double[] runTimes = new double[numRuns]; // to store the time each run takes
 		
-		for (int i = 0; i < sortRuns; i++) { 									// for each trial that the user wants to do (sortRuns)
-			int[] ints = generateInts(Integer.parseInt(sortSizeTF.getText())); 	// create a new array of the size the user wants to test
-			double initialTime = System.currentTimeMillis();   					// take the initial time
-			sorter.sort(ints); 													// run the sort with the int array
-			double finalTime = System.currentTimeMillis(); 						// get the final time
-			double elapsedTime = finalTime-initialTime; 						// calc and store the elapse time
+		for (int i = 0; i < numRuns; i++) { 					// for each trial that the user wants to do (sortRuns)
+			int[] ints = generateInts(dataSize); 				// create a new array of the size the user wants to test
+			double initialTime = System.currentTimeMillis();   	// take the initial time
+			sorter.sort(ints); 									// run the sort with the int array
+			double finalTime = System.currentTimeMillis(); 		// get the final time
+			double elapsedTime = finalTime-initialTime; 		// calc and store the elapse time
 			runTimes[i] = elapsedTime;
 		}
 		
@@ -164,7 +165,7 @@ public class Main extends Application {
 		for (double time : runTimes){
 			totalTime += time;
 		}
-		double average = totalTime/sortRuns;
+		double average = totalTime/numRuns;
 		
 		// output result
 		System.out.println(average);
@@ -172,17 +173,17 @@ public class Main extends Application {
 	}
 	
 	
-	public static void runSearchTest(Searcher searcher) {
-		searchRuns = Integer.parseInt(searchRunsTF.getText());
-		double[] runTimes = new double[searchRuns]; // to store the time each run takes
+	private void runSearchTest(Searcher searcher, int numRuns, int dataSize) {
 		
-		for (int i = 0; i < searchRuns; i++) { 										// for each trial that the user wants to do (sortRuns)
-			int[] ints = generateInts(Integer.parseInt(searchSizeTF.getText())); 	// generate a random set of ints
-			int target = (int) Math.random()*1000000;								// generate a random target
-			double initialTime = System.currentTimeMillis();   						// take the initial time
-			searcher.search(ints, target); 											// run the search with the int array and target
-			double finalTime = System.currentTimeMillis(); 							// record final time
-			double elapsedTime = finalTime-initialTime; 							// calc and store the elapse time
+		double[] runTimes = new double[numRuns]; // to store the time each run takes
+		
+		for (int i = 0; i < numRuns; i++) { 					// for each trial that the user wants to do (sortRuns)
+			int[] ints = generateInts(dataSize); 				// generate a random set of ints
+			int target = (int) Math.random()*1000000;			// generate a random target
+			double initialTime = System.currentTimeMillis();   	// take the initial time
+			searcher.search(ints, target); 						// run the search with the int array and target
+			double finalTime = System.currentTimeMillis(); 		// record final time
+			double elapsedTime = finalTime-initialTime; 		// calc and store the elapse time
 			System.out.println(elapsedTime);
 			runTimes[i] = elapsedTime;
 		}
@@ -192,7 +193,7 @@ public class Main extends Application {
 		for (double time : runTimes){
 			totalTime += time;
 		}
-		double average = totalTime/searchRuns;
+		double average = totalTime/numRuns;
 		
 		// output result
 		System.out.println(average);
