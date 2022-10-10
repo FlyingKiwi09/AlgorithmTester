@@ -52,7 +52,7 @@ public class ExperimentManager {
 		
 		// output result
 		System.out.println(average);
-		resultsList.add("Average " + average);
+		resultsList.add("Trials: " + numRuns + ", Date Size: " + dataSize + ", Average Time: " + average + ", Step Count: " + sorter.stepCount);
 	}
 	
 
