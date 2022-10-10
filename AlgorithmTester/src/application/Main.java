@@ -19,9 +19,6 @@ import javafx.scene.text.Text;
 
 public class Main extends Application {
 	
-	
-	public static int sortRuns, searchRuns, sortQuantity, searchQuantity;
-	public static Button testSortButton, testSearchButton;
 	public static ListView<String> sortResultsList, searchResultsList;
 	
 	
@@ -83,6 +80,7 @@ public class Main extends Application {
 		return scene;
 	}
 	
+	
 	private VBox setUpSortButtonsUI() {
 		VBox sortButtonsVBox = new VBox();
 		
@@ -90,7 +88,7 @@ public class Main extends Application {
 		TextField sortRunsTF = new TextField();
 		TextField sortSizeTF = new TextField();
 		
-		testSortButton = new Button("Test Sort");
+		Button testSortButton = new Button("Test Sort");
 		testSortButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 			@Override
@@ -101,6 +99,9 @@ public class Main extends Application {
 				runSortTest(testSort, numRuns, dataSize);				
 			}
 		});
+		
+		
+		// **** add buttons for new sort algorithms here ****
 		
 		sortButtonsVBox.getChildren().addAll(sortRunsTF, sortSizeTF, testSortButton);
 		
@@ -114,7 +115,7 @@ public class Main extends Application {
 		// add textfields and buttons to searchButtonsVBox
 		TextField searchRunsTF = new TextField();
 		TextField searchSizeTF = new TextField();
-		testSearchButton = new Button("Test Search");
+		Button testSearchButton = new Button("Test Search");
 		testSearchButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			
 			@Override
@@ -127,6 +128,10 @@ public class Main extends Application {
 			}
 			
 		});
+		
+		
+		// **** add buttons for new search algorithms here ****
+		
 		searchButtonsVBox.getChildren().addAll(searchRunsTF, searchSizeTF, testSearchButton);
 				
 		return searchButtonsVBox;
