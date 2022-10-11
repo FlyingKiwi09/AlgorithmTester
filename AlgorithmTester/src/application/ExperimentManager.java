@@ -33,6 +33,7 @@ public class ExperimentManager {
 	public void runSortTest(Sorter sorter, int numRuns, int dataSize) {
 		
 		double[] runTimes = new double[numRuns]; // to store the time each run takes
+		long[] counts = new long[numRuns];
 		
 		for (int i = 0; i < numRuns; i++) { 					// for each trial that the user wants to do (sortRuns)
 			int[] ints = generateInts(dataSize); 				// create a new array of the size the user wants to test
@@ -41,18 +42,26 @@ public class ExperimentManager {
 			double finalTime = System.currentTimeMillis(); 		// get the final time
 			double elapsedTime = finalTime-initialTime; 		// calc and store the elapse time
 			runTimes[i] = elapsedTime;
+			counts[i] = sorter.stepCount;
 		}
 		
-		// calculate the average
+		// calculate the average time
 		double totalTime = 0;
 		for (double time : runTimes){
 			totalTime += time;
 		}
-		double average = totalTime/numRuns;
+		double averageTime = totalTime/numRuns;
+		
+		// calculate the average count
+		long totalCount = 0;
+		for (long count : counts) {
+			totalCount += count;
+		}
+		long averageCount = totalCount/numRuns;
 		
 		// output result
-		System.out.println(average);
-		resultsList.add("Trials: " + numRuns + ", Date Size: " + dataSize + ", Average Time: " + average + ", Step Count: " + sorter.stepCount);
+		System.out.println(averageTime);
+		resultsList.add(sorter.testName + " Results:    Trials: " + numRuns + ",    Date Size: " + dataSize + ",    Average Time: " + averageTime + ",    Average Count: " + averageCount);
 	}
 	
 
@@ -61,7 +70,7 @@ public class ExperimentManager {
 		int[] ints = new int[quantity];
 		
 		for (int i = 0; i < quantity; i++) {
-			ints[i] = (int) Math.random()*1000000;
+			ints[i] = (int) Math.floor(Math.random()*(1000000)+0);
 		}
 		
 		return ints;

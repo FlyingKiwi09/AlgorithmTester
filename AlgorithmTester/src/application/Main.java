@@ -71,7 +71,7 @@ public class Main extends Application {
 		// add buttonsVBox and ListVeiw to sortHBox
 		sortResultsList = new ListView<String>();
 		sortResultsList.setItems(this.manager.getResultsList());
-		sortResultsList.setPrefWidth(500);
+		sortResultsList.setPrefWidth(600);
 		sortHBox.getChildren().addAll(this.setUpSortButtonsUI(), sortResultsList);
 		
 		// add buttonsVBox and ListVeiw to searchHBox
@@ -98,10 +98,33 @@ public class Main extends Application {
 			this.manager.runSortTest(testSort, numRuns, dataSize);				
 		});
 		
+		Button bubbleSortButton = new Button("Bubble Sort");
+		bubbleSortButton.setOnMouseClicked(event -> {
+			int numRuns = Integer.parseInt(sortRunsTF.getText());
+			int dataSize = Integer.parseInt(sortSizeTF.getText());
+			BubbleSort bubbleSort = new BubbleSort(); // bubbleSort class extends Sorter class and can therefore be passed to the runSortTest method
+			this.manager.runSortTest(bubbleSort, numRuns, dataSize);				
+		});
+		
+		Button insertSortButton = new Button("Insert Sort");
+		insertSortButton.setOnMouseClicked(event -> {
+			int numRuns = Integer.parseInt(sortRunsTF.getText());
+			int dataSize = Integer.parseInt(sortSizeTF.getText());
+			InsertSort insertSort = new InsertSort(); // bubbleSort class extends Sorter class and can therefore be passed to the runSortTest method
+			this.manager.runSortTest(insertSort, numRuns, dataSize);				
+		});
+		
+		Button mergeSortButton = new Button("Merge Sort");
+		mergeSortButton.setOnMouseClicked(event -> {
+			int numRuns = Integer.parseInt(sortRunsTF.getText());
+			int dataSize = Integer.parseInt(sortSizeTF.getText());
+			MergeSort mergeSort = new MergeSort(); // bubbleSort class extends Sorter class and can therefore be passed to the runSortTest method
+			this.manager.runSortTest(mergeSort, numRuns, dataSize);				
+		});
 		
 		// **** add buttons for new sort algorithms here ****
 		
-		sortButtonsVBox.getChildren().addAll(sortRunsTF, sortSizeTF, testSortButton);
+		sortButtonsVBox.getChildren().addAll(sortRunsTF, sortSizeTF, testSortButton, bubbleSortButton, insertSortButton, mergeSortButton);
 		
 		return sortButtonsVBox;
 	}

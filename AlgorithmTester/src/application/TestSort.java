@@ -3,9 +3,9 @@ package application;
 public class TestSort extends Sorter{
 
 	
-	
 	public TestSort() {
 		super();
+		this.testName = "Test Sort";
 	}
 
 	
